@@ -433,16 +433,42 @@
       activeIndex = nextIndex;
     }
 
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting){
-          const key = entry.target.getAttribute('data-bgvideo');
-          if (key) crossfadeTo(key);
+    const bgSections = Array.from(document.querySelectorAll('[data-bgvideo]'));
+
+    function pickActiveSection(){
+      const viewportMid = window.innerHeight * 0.5;
+      let closest = null;
+      let closestDist = Infinity;
+      bgSections.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        // Only consider sections that at least partially overlap the viewport
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        const center = rect.top + rect.height / 2;
+        const dist = Math.abs(center - viewportMid);
+        if (dist < closestDist){
+          closestDist = dist;
+          closest = el;
         }
       });
-    }, { threshold: 0.45 });
+      if (closest){
+        const key = closest.getAttribute('data-bgvideo');
+        if (key) crossfadeTo(key);
+      }
+    }
 
-    document.querySelectorAll('[data-bgvideo]').forEach(el => sectionObserver.observe(el));
+    let scrollTicking = false;
+    function onScroll(){
+      if (!scrollTicking){
+        window.requestAnimationFrame(() => {
+          pickActiveSection();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    pickActiveSection();
   </script>
 
 </body>
