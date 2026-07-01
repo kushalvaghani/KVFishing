@@ -171,25 +171,16 @@
     position:relative; border-radius: 22px; overflow:hidden;
     min-height: 340px; display:flex; flex-direction:column; justify-content:flex-end;
     isolation:isolate;
-    border: 1px solid rgba(255,248,237,0.12);
+    border: 1px solid rgba(255,248,237,0.16);
     transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   }
   .rod-card:hover{ transform: translateY(-6px); }
-  .rod-card:hover .rod-video{ transform: scale(1.06); }
 
-  .rod-video{
-    position:absolute; inset:0; z-index:-2;
-    width:100%; height:100%; object-fit:cover;
-    transition: transform 6s ease;
-  }
-  .rod-card::after{
-    content:""; position:absolute; inset:0; z-index:-1;
-    background: linear-gradient(180deg, rgba(7,31,37,0.05) 20%, rgba(7,31,37,0.92) 100%);
-  }
-  .rod-1::after{ background: linear-gradient(180deg, rgba(10,84,104,0.12) 15%, rgba(7,31,37,0.92) 100%); }
-  .rod-2::after{ background: linear-gradient(180deg, rgba(14,58,44,0.12) 15%, rgba(7,31,37,0.92) 100%); }
-  .rod-3::after{ background: linear-gradient(180deg, rgba(140,50,20,0.15) 15%, rgba(7,31,37,0.92) 100%); }
-  .rod-4::after{ background: linear-gradient(180deg, rgba(7,20,30,0.15) 15%, rgba(7,31,37,0.94) 100%); }
+  .rod-1{ background: linear-gradient(135deg, rgba(23,135,159,0.55), rgba(10,84,104,0.78)); }
+  .rod-2{ background: linear-gradient(135deg, rgba(45,225,194,0.45), rgba(14,154,135,0.75)); }
+  .rod-3{ background: linear-gradient(135deg, rgba(255,138,92,0.5), rgba(226,63,28,0.75)); }
+  .rod-4{ background: linear-gradient(135deg, rgba(10,46,54,0.75), rgba(20,59,68,0.85)); }
 
   .rod-tag{
     position:absolute; top: 24px; right: 24px; z-index:1;
@@ -278,10 +269,10 @@
        every section as the page scrolls; swaps clip based on which
        section/product is currently in view (see script at bottom). -->
   <div class="bg-layer">
-    <video class="bg-video is-active" data-key="hero" autoplay muted loop playsinline
+    <video class="bg-video is-active" data-key="hero" autoplay muted loop playsinline preload="auto"
       poster="https://d8j0ntlcm91z4.cloudfront.net/user_3FmzmKPzrgQNxoNwzo6ZXAB57Ex/hf_20260701_005952_a7a09d45-bc62-492e-9c24-668f424248cf.png"
       src="https://d8j0ntlcm91z4.cloudfront.net/user_3FmzmKPzrgQNxoNwzo6ZXAB57Ex/hf_20260701_061642_1748554b-0718-4a6f-a5a8-317a8d34a12f.mp4"></video>
-    <video class="bg-video" data-key="secondary" autoplay muted loop playsinline></video>
+    <video class="bg-video" data-key="secondary" muted loop playsinline preload="none"></video>
   </div>
   <div class="bg-scrim"></div>
   <div class="bg-vignette"></div>
@@ -329,8 +320,6 @@
 
     <div class="range-grid">
       <div class="rod-card rod-1" data-bgvideo="flats">
-        <video class="rod-video" autoplay muted loop playsinline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_3FmzmKPzrgQNxoNwzo6ZXAB57Ex/hf_20260701_061647_e7a50c65-414f-47c3-b9d4-d9f7ff6a28ca.mp4"></video>
         <div class="rod-tag">Inshore / Spin</div>
         <div class="rod-name">Tidebreaker</div>
         <p class="rod-desc">Fast-taper blank for flats and estuary work — reads the lightest tap and still has backbone when it turns into a run.</p>
@@ -339,8 +328,6 @@
       </div>
 
       <div class="rod-card rod-2" data-bgvideo="surf">
-        <video class="rod-video" autoplay muted loop playsinline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_3FmzmKPzrgQNxoNwzo6ZXAB57Ex/hf_20260701_061650_e3555ca2-ef50-4d77-b9d9-d1749db66bc7.mp4"></video>
         <div class="rod-tag">Surf / Travel</div>
         <div class="rod-name">Horizon</div>
         <p class="rod-desc">Three-piece travel build that casts like a one-piece — long distance off the beach without long odds in your bag.</p>
@@ -349,8 +336,6 @@
       </div>
 
       <div class="rod-card rod-3" data-bgvideo="reef">
-        <video class="rod-video" autoplay muted loop playsinline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_3FmzmKPzrgQNxoNwzo6ZXAB57Ex/hf_20260701_061655_46bf0101-e558-4c02-9d18-1195673909a6.mp4"></video>
         <div class="rod-tag">Reef / Jig</div>
         <div class="rod-name">Reef Runner</div>
         <p class="rod-desc">Short, brutal lifting power for structure fishing — built to turn a fish's head before it finds the coral.</p>
@@ -359,8 +344,6 @@
       </div>
 
       <div class="rod-card rod-4" data-bgvideo="marlin">
-        <video class="rod-video" autoplay muted loop playsinline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_3FmzmKPzrgQNxoNwzo6ZXAB57Ex/hf_20260701_061659_cc7d8dce-5a49-4b28-9df4-646432f40837.mp4"></video>
         <div class="rod-tag">Offshore / Troll</div>
         <div class="rod-name">Blue Marlin</div>
         <p class="rod-desc">The flagship. Roller guides, bent butt, and a blank laid up to survive a fish that's bigger than the boat's dinghy.</p>
@@ -442,6 +425,8 @@
       const incoming = videos[nextIndex];
       const outgoing = videos[activeIndex];
       incoming.src = clipLibrary[key];
+      incoming.preload = 'auto';
+      incoming.load();
       incoming.play().catch(()=>{});
       incoming.classList.add('is-active');
       outgoing.classList.remove('is-active');
